@@ -11,6 +11,17 @@ process.on('unhandledRejection', error => {
     sendMessage(error.message);
 });
 
+const checkData = async () => {
+    console.log('\n');
+    const data = await getGodvilleData();
+    const result = verifyGodvilleQuest(data);
+    result &&
+        await sendMessage(
+            'Герой пытается уйти из гильдии! Задание:',
+            data.data.quest
+        );
+};
+
 const app = express();
 
 app.get('/', (request, response) => {
@@ -18,15 +29,8 @@ app.get('/', (request, response) => {
 });
 app.listen(3000, () => {
     console.log('App is listening on port 5000');
+    checkData();
     setInterval(() => {
-        (async () => {
-            const data = await getGodvilleData();
-            const result = verifyGodvilleQuest(data);
-            result &&
-                await sendMessage(
-                    'Герой пытается уйти из гильдии! Задание:',
-                    data.data.quest
-                );
-        })();
+        checkData();
     }, 3600000);
 });

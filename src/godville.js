@@ -9,7 +9,9 @@ const getGodvilleData = async () => {
 
 const verifyGodvilleQuest = (data) => {
     const quest = data.data.quest;
-    return !!(quest.match(/членом гильдии/))
+    const result = !!(quest.match(/членом гильдии/));
+    console.log(`${getTime()}: verifying data. Result: ${result ? 'Not OK' : 'OK'}`);
+    return result;
 };
 
 module.exports = { getGodvilleData, verifyGodvilleQuest };
